@@ -46,7 +46,7 @@
             background: var(--background);
             color: var(--text-color);
             min-height: 100vh;
-            padding: 10px;
+            padding: 0;
             overflow-x: hidden;
             touch-action: manipulation;
             -webkit-user-select: none;
@@ -58,15 +58,15 @@
             max-width: 100%;
             margin: 0 auto;
             background: var(--container-bg);
-            border-radius: 12px;
-            padding: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 0;
+            padding: 10px;
+            box-shadow: none;
         }
         
         .theme-switcher {
-            position: absolute;
-            top: 15px;
-            right: 15px;
+            position: fixed;
+            top: 10px;
+            right: 10px;
             background: rgba(0, 0, 0, 0.2);
             border-radius: 20px;
             padding: 5px;
@@ -88,15 +88,15 @@
         }
         
         .championship-selector {
-            position: absolute;
-            top: 15px;
-            left: 15px;
+            position: fixed;
+            top: 10px;
+            left: 10px;
             background: rgba(0, 0, 0, 0.5);
             border-radius: 8px;
             padding: 5px;
             z-index: 100;
             cursor: pointer;
-            width: 200px;
+            width: 180px;
         }
         
         .championship-button {
@@ -108,6 +108,7 @@
             color: var(--secondary-color);
             border-radius: 6px;
             font-weight: bold;
+            font-size: 0.9rem;
         }
         
         .championship-dropdown {
@@ -128,9 +129,10 @@
         }
         
         .championship-option {
-            padding: 10px;
+            padding: 8px;
             cursor: pointer;
             transition: background 0.3s;
+            font-size: 0.85rem;
         }
         
         .championship-option:hover {
@@ -143,17 +145,21 @@
             font-weight: bold;
         }
         
+        .championship-format {
+            font-size: 0.7rem;
+            color: #ccc;
+            margin-top: 2px;
+        }
+        
         header {
             text-align: center;
-            padding: 15px 0;
-            border-bottom: 2px solid var(--primary-color);
-            margin-bottom: 15px;
+            padding: 40px 0 15px 0;
+            margin-bottom: 10px;
             position: relative;
-            margin-top: 40px;
         }
         
         h1 {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             margin-bottom: 8px;
             color: var(--primary-color);
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
@@ -164,7 +170,7 @@
             grid-template-columns: 1fr auto 1fr;
             text-align: center;
             margin: 15px 0;
-            padding: 12px;
+            padding: 10px;
             background: var(--card-bg);
             border-radius: 8px;
             font-size: 0.9rem;
@@ -184,50 +190,52 @@
         }
         
         .vs {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: var(--primary-color);
             align-self: center;
-            padding: 0 15px;
+            padding: 0 10px;
         }
         
         .score {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: bold;
             margin-top: 8px;
         }
         
         .match-details {
             text-align: center;
-            margin-bottom: 15px;
-            font-size: 0.9rem;
+            margin-bottom: 10px;
+            font-size: 0.85rem;
             color: var(--text-color);
             opacity: 0.8;
         }
         
         .time-display {
-            font-size: 1.1rem;
+            font-size: 1rem;
             background: rgba(0, 0, 0, 0.2);
-            padding: 8px 15px;
+            padding: 8px 12px;
             border-radius: 8px;
             display: inline-block;
             margin-top: 8px;
             cursor: pointer;
+            text-align: center;
+            width: 100%;
         }
         
         .championship-info {
             text-align: center;
-            margin-bottom: 15px;
-            font-size: 0.9rem;
+            margin-bottom: 10px;
+            font-size: 0.85rem;
             color: var(--primary-color);
             font-weight: bold;
         }
         
         .stats-section {
             background: var(--card-bg);
-            padding: 15px;
+            padding: 12px;
             border-radius: 8px;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             display: none;
         }
         
@@ -237,25 +245,25 @@
         
         .stats-title {
             color: var(--primary-color);
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             text-align: center;
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            padding-bottom: 8px;
-            font-size: 1.2rem;
+            padding-bottom: 6px;
+            font-size: 1.1rem;
         }
         
         .stats-grid {
             display: grid;
             grid-template-columns: 2fr 1fr 2fr;
-            gap: 10px;
+            gap: 8px;
             text-align: center;
         }
         
         .stats-item {
-            padding: 8px;
+            padding: 6px;
             background: var(--stats-bg);
             border-radius: 5px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
         
         .stats-header {
@@ -272,8 +280,8 @@
         .odds-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 8px;
+            margin-bottom: 12px;
             display: none;
         }
         
@@ -283,7 +291,7 @@
         
         .odds-card {
             background: var(--card-bg);
-            padding: 12px;
+            padding: 10px;
             border-radius: 8px;
             text-align: center;
         }
@@ -291,12 +299,12 @@
         .odds-title {
             font-weight: bold;
             color: var(--primary-color);
-            margin-bottom: 8px;
-            font-size: 0.95rem;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
         }
         
         .odds-value {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: bold;
             cursor: pointer;
         }
@@ -307,9 +315,9 @@
         
         .main-content {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 15px;
             display: none;
         }
         
@@ -317,41 +325,60 @@
             display: grid;
         }
         
-        @media (max-width: 768px) {
-            .main-content.active {
-                grid-template-columns: 1fr;
+        @media (min-width: 768px) {
+            .container {
+                padding: 15px;
+                border-radius: 12px;
+                margin: 10px auto;
+                max-width: 600px;
             }
             
             .championship-selector {
-                width: 160px;
+                left: 15px;
+                top: 15px;
+            }
+            
+            .theme-switcher {
+                right: 15px;
+                top: 15px;
+            }
+            
+            header {
+                padding: 15px 0;
             }
         }
         
         .input-section, .result-section {
             background: var(--card-bg);
-            padding: 15px;
+            padding: 12px;
             border-radius: 8px;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
         }
         
         h2 {
             color: var(--primary-color);
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             text-align: center;
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            padding-bottom: 8px;
-            font-size: 1.2rem;
+            padding-bottom: 6px;
+            font-size: 1.1rem;
+        }
+        
+        .form-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
         }
         
         .form-group {
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
         
         label {
             display: block;
             margin-bottom: 4px;
             font-weight: bold;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
         
         input, select {
@@ -361,7 +388,7 @@
             border-radius: 5px;
             background: var(--input-bg);
             color: var(--input-color);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
         
         button {
@@ -371,7 +398,7 @@
             color: var(--secondary-color);
             border: none;
             border-radius: 5px;
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: bold;
             cursor: pointer;
             transition: background 0.3s;
@@ -385,7 +412,7 @@
         .clear-btn {
             background: #ff6b6b;
             color: white;
-            margin-top: 20px;
+            margin-top: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -394,23 +421,23 @@
         
         .result-card {
             background: rgba(40, 40, 60, 0.9);
-            padding: 12px;
+            padding: 10px;
             border-radius: 6px;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
         
         .result-title {
             font-weight: bold;
             color: var(--primary-color);
-            margin-bottom: 8px;
-            font-size: 0.95rem;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
         }
         
         .result-value {
-            font-size: 1rem;
+            font-size: 0.9rem;
             text-align: center;
-            padding: 8px;
+            padding: 6px;
             background: rgba(0, 0, 0, 0.2);
             border-radius: 5px;
             margin-top: 4px;
@@ -430,30 +457,30 @@
         
         footer {
             text-align: center;
-            margin-top: 20px;
-            padding-top: 15px;
+            margin-top: 15px;
+            padding-top: 12px;
             border-top: 1px solid rgba(255, 255, 255, 0.2);
             color: var(--text-color);
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             opacity: 0.8;
         }
         
         .period-controls {
             display: flex;
             justify-content: space-between;
-            margin-top: 15px;
+            margin-top: 12px;
         }
         
         .period-btn {
             flex: 1;
-            margin: 0 4px;
-            padding: 6px;
+            margin: 0 3px;
+            padding: 5px;
             background: #3949ab;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
         }
         
         .period-btn.active {
@@ -463,7 +490,7 @@
         
         .tabs {
             display: flex;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             background: var(--card-bg);
             border-radius: 8px;
             overflow: hidden;
@@ -471,11 +498,12 @@
         
         .tab {
             flex: 1;
-            padding: 10px;
+            padding: 8px;
             text-align: center;
             background: rgba(37, 37, 64, 0.8);
             cursor: pointer;
             transition: background 0.3s;
+            font-size: 0.85rem;
         }
         
         .tab.active {
@@ -492,7 +520,7 @@
             left: 0;
             width: 100%;
             background: #333;
-            padding: 10px;
+            padding: 8px;
             box-shadow: 0 -2px 10px rgba(0,0,0,0.5);
             z-index: 1000;
         }
@@ -500,18 +528,18 @@
         .keyboard-row {
             display: flex;
             justify-content: center;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
         
         .keyboard-key {
-            width: 50px;
-            height: 40px;
-            margin: 4px;
+            width: 45px;
+            height: 35px;
+            margin: 3px;
             background: #fff;
             color: #333;
             border: none;
             border-radius: 5px;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -519,11 +547,11 @@
         }
         
         .keyboard-key-wide {
-            width: 80px;
+            width: 70px;
         }
         
         .keyboard-key-extra-wide {
-            width: 120px;
+            width: 100px;
         }
         
         .keyboard-close {
@@ -551,7 +579,7 @@
         .edit-icon {
             margin-left: 5px;
             color: var(--primary-color);
-            font-size: 0.8rem;
+            font-size: 0.75rem;
         }
         
         body.light-theme .stats-editable {
@@ -586,21 +614,41 @@
         }
         
         .calculated-odds {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: #4caf50;
-            margin-top: 5px;
+            margin-top: 4px;
         }
         
         .time-factor-display {
-            font-size: 0.9rem;
-            margin-top: 5px;
+            font-size: 0.8rem;
+            margin-top: 4px;
             color: #fdbb2d;
         }
         
-        .championship-format {
-            font-size: 0.8rem;
-            color: #ccc;
-            margin-top: 3px;
+        .data-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        
+        .data-item {
+            background: var(--card-bg);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .data-label {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            font-size: 0.85rem;
+        }
+        
+        .data-value {
+            font-size: 1rem;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -657,9 +705,9 @@
         </div>
         
         <div class="match-info">
-            <div class="team" id="team-a">Италия</div>
+            <div class="team" id="team-a">Команда А</div>
             <div class="vs">VS</div>
-            <div class="team" id="team-b">Испания</div>
+            <div class="team" id="team-b">Команда Б</div>
             <div class="score" id="score-a-display">62</div>
             <div class="score">:</div>
             <div class="score" id="score-b-display">63</div>
@@ -667,6 +715,33 @@
         
         <div class="time-display" id="match-time-editable">
             4-я четверть, 09:29 | Время: <span id="current-time">--:--:--</span>
+        </div>
+        
+        <div class="data-grid">
+            <div class="data-item">
+                <div class="data-label">Тотал</div>
+                <div class="data-value" id="total-display">180.5</div>
+            </div>
+            <div class="data-item">
+                <div class="data-label">Фора</div>
+                <div class="data-value" id="handicap-display">-5.5</div>
+            </div>
+            <div class="data-item">
+                <div class="data-label">Текущий период</div>
+                <div class="data-value" id="period-display">4-й</div>
+            </div>
+            <div class="data-item">
+                <div class="data-label">Оставшееся время</div>
+                <div class="data-value" id="time-display">09:29</div>
+            </div>
+            <div class="data-item">
+                <div class="data-label" id="team-a-label">Команда А</div>
+                <div class="data-value" id="score-a-display-short">62</div>
+            </div>
+            <div class="data-item">
+                <div class="data-label" id="team-b-label">Команда Б</div>
+                <div class="data-value" id="score-b-display-short">63</div>
+            </div>
         </div>
         
         <div class="tabs">
@@ -679,67 +754,67 @@
             <div class="stats-title">Статистика матча <i class="fas fa-edit edit-icon" id="edit-stats"></i></div>
             <div class="stats-grid">
                 <div class="stats-item stats-header">Параметр</div>
-                <div class="stats-item stats-header" id="team-a-header">Италия</div>
-                <div class="stats-item stats-header" id="team-b-header">Испания</div>
+                <div class="stats-item stats-header" id="team-a-header">Команда А</div>
+                <div class="stats-item stats-header" id="team-b-header">Команда Б</div>
                 
                 <div class="stats-item">Штрафные броски</div>
-                <div class="stats-item stats-editable" data-field="italy-free-throws">
-                    <span id="italy-free-throws">9/13 (69%)</span>
+                <div class="stats-item stats-editable" data-field="team-a-free-throws">
+                    <span id="team-a-free-throws">9/13 (69%)</span>
                 </div>
-                <div class="stats-item stats-editable" data-field="spain-free-throws">
-                    <span id="spain-free-throws">13/17 (76%)</span>
+                <div class="stats-item stats-editable" data-field="team-b-free-throws">
+                    <span id="team-b-free-throws">13/17 (76%)</span>
                 </div>
                 
                 <div class="stats-item">2-х очковые</div>
-                <div class="stats-item stats-editable" data-field="italy-two-pointers">
-                    <span id="italy-two-pointers">16</span>
+                <div class="stats-item stats-editable" data-field="team-a-two-pointers">
+                    <span id="team-a-two-pointers">16</span>
                 </div>
-                <div class="stats-item stats-editable" data-field="spain-two-pointers">
-                    <span id="spain-two-pointers">10</span>
+                <div class="stats-item stats-editable" data-field="team-b-two-pointers">
+                    <span id="team-b-two-pointers">10</span>
                 </div>
                 
                 <div class="stats-item">3-х очковые</div>
-                <div class="stats-item stats-editable" data-field="italy-three-pointers">
-                    <span id="italy-three-pointers">7</span>
+                <div class="stats-item stats-editable" data-field="team-a-three-pointers">
+                    <span id="team-a-three-pointers">7</span>
                 </div>
-                <div class="stats-item stats-editable" data-field="spain-three-pointers">
-                    <span id="spain-three-pointers">10</span>
+                <div class="stats-item stats-editable" data-field="team-b-three-pointers">
+                    <span id="team-b-three-pointers">10</span>
                 </div>
                 
                 <div class="stats-item">Фолы</div>
-                <div class="stats-item stats-editable" data-field="italy-fouls">
-                    <span id="italy-fouls">26</span>
+                <div class="stats-item stats-editable" data-field="team-a-fouls">
+                    <span id="team-a-fouls">26</span>
                 </div>
-                <div class="stats-item stats-editable" data-field="spain-fouls">
-                    <span id="spain-fouls">17</span>
+                <div class="stats-item stats-editable" data-field="team-b-fouls">
+                    <span id="team-b-fouls">17</span>
                 </div>
                 
                 <div class="stats-item">Подборы</div>
-                <div class="stats-item stats-editable" data-field="italy-rebounds">
-                    <span id="italy-rebounds">32</span>
+                <div class="stats-item stats-editable" data-field="team-a-rebounds">
+                    <span id="team-a-rebounds">32</span>
                 </div>
-                <div class="stats-item stats-editable" data-field="spain-rebounds">
-                    <span id="spain-rebounds">28</span>
+                <div class="stats-item stats-editable" data-field="team-b-rebounds">
+                    <span id="team-b-rebounds">28</span>
                 </div>
                 
                 <div class="stats-item">Потери</div>
-                <div class="stats-item stats-editable" data-field="italy-turnovers">
-                    <span id="italy-turnovers">12</span>
+                <div class="stats-item stats-editable" data-field="team-a-turnovers">
+                    <span id="team-a-turnovers">12</span>
                 </div>
-                <div class="stats-item stats-editable" data-field="spain-turnovers">
-                    <span id="spain-turnovers">10</span>
+                <div class="stats-item stats-editable" data-field="team-b-turnovers">
+                    <span id="team-b-turnovers">10</span>
                 </div>
             </div>
         </div>
         
         <div class="odds-section" id="main-tab">
             <div class="odds-card">
-                <div class="odds-title">П1 (<span id="team-a-short">ИТА</span>)</div>
+                <div class="odds-title">П1 (<span id="team-a-short">КМД А</span>)</div>
                 <div class="odds-value odds-editable" id="odds-p1">1.81</div>
                 <div class="calculated-odds">Наш расчет: <span id="calculated-p1">1.92</span></div>
             </div>
             <div class="odds-card">
-                <div class="odds-title">П2 (<span id="team-b-short">ИСП</span>)</div>
+                <div class="odds-title">П2 (<span id="team-b-short">КМД Б</span>)</div>
                 <div class="odds-value odds-editable" id="odds-p2">2.00</div>
                 <div class="calculated-odds">Наш расчет: <span id="calculated-p2">1.85</span></div>
             </div>
@@ -759,40 +834,46 @@
             <div class="input-section">
                 <h2>Ввод данных</h2>
                 
-                <div class="form-group">
-                    <label for="total-line">Тотал букмекера:</label>
-                    <input type="text" id="total-line" placeholder="Напр. 180.5" inputmode="none" readonly>
-                </div>
-                
-                <div class="form-group">
-                    <label for="handicap-line">Фора букмекера:</label>
-                    <input type="text" id="handicap-line" placeholder="Напр. -5.5" inputmode="none" readonly>
-                </div>
-                
-                <div class="form-group">
-                    <label for="current-period">Текущий период:</label>
-                    <select id="current-period">
-                        <option value="1">1-й период</option>
-                        <option value="2">2-й период</option>
-                        <option value="3" selected>3-й период</option>
-                        <option value="4">4-й период</option>
-                        <option value="ot">Овертайм</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="time-remaining">Оставшееся время:</label>
-                    <input type="text" id="time-remaining" placeholder="Мин:сек" value="5:00" inputmode="none" readonly>
-                </div>
-                
-                <div class="form-group">
-                    <label for="score-a">Очки команды А:</label>
-                    <input type="text" id="score-a" value="75" inputmode="none" readonly>
-                </div>
-                
-                <div class="form-group">
-                    <label for="score-b">Очки команды Б:</label>
-                    <input type="text" id="score-b" value="68" inputmode="none" readonly>
+                <div class="form-columns">
+                    <div class="form-column">
+                        <div class="form-group">
+                            <label for="total-line">Тотал букмекера:</label>
+                            <input type="text" id="total-line" placeholder="Напр. 180.5" inputmode="none" readonly>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="current-period">Текущий период:</label>
+                            <select id="current-period">
+                                <option value="1">1-й период</option>
+                                <option value="2">2-й период</option>
+                                <option value="3" selected>3-й период</option>
+                                <option value="4">4-й период</option>
+                                <option value="ot">Овертайм</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="score-a">Очки команды А:</label>
+                            <input type="text" id="score-a" value="75" inputmode="none" readonly>
+                        </div>
+                    </div>
+                    
+                    <div class="form-column">
+                        <div class="form-group">
+                            <label for="handicap-line">Фора букмекера:</label>
+                            <input type="text" id="handicap-line" placeholder="Напр. -5.5" inputmode="none" readonly>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="time-remaining">Оставшееся время:</label>
+                            <input type="text" id="time-remaining" placeholder="Мин:сек" value="5:00" inputmode="none" readonly>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="score-b">Очки команды Б:</label>
+                            <input type="text" id="score-b" value="68" inputmode="none" readonly>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="form-group">
@@ -999,7 +1080,7 @@
             tempInput.value = currentValue.replace(' | Время: --:--:--', '');
             tempInput.classList.add('stat-input');
             tempInput.setAttribute('readonly', 'readonly');
-            tempInput.style.fontSize = '1.1rem';
+            tempInput.style.fontSize = '1rem';
             tempInput.style.textAlign = 'center';
             tempInput.style.width = '100%';
             tempInput.style.background = 'transparent';
@@ -1029,6 +1110,9 @@
                     document.getElementById('current-period').value = period;
                     document.getElementById('time-remaining').value = `${minutes}:${seconds}`;
                     
+                    // Обновляем отображение данных
+                    updateDataDisplay();
+                    
                     // Активируем соответствующую кнопку периода
                     document.querySelectorAll('.period-btn').forEach(btn => {
                         btn.classList.remove('active');
@@ -1054,14 +1138,35 @@
             document.getElementById('keyboard-close').addEventListener('click', finishHandler);
         });
         
+        // Функция обновления отображения данных
+        function updateDataDisplay() {
+            document.getElementById('total-display').textContent = document.getElementById('total-line').value || '--';
+            document.getElementById('handicap-display').textContent = document.getElementById('handicap-line').value || '--';
+            
+            const period = document.getElementById('current-period').value;
+            let periodText;
+            if (period === 'ot') {
+                periodText = 'Овертайм';
+            } else {
+                periodText = period + '-й период';
+            }
+            document.getElementById('period-display').textContent = periodText;
+            
+            document.getElementById('time-display').textContent = document.getElementById('time-remaining').value || '--';
+            document.getElementById('score-a-display-short').textContent = document.getElementById('score-a').value || '0';
+            document.getElementById('score-b-display-short').textContent = document.getElementById('score-b').value || '0';
+        }
+        
         // Автоматическое обновление счета при изменении очков
         document.getElementById('score-a').addEventListener('input', function() {
             document.getElementById('score-a-display').textContent = this.value || '0';
+            document.getElementById('score-a-display-short').textContent = this.value || '0';
             calculatePredictions();
         });
         
         document.getElementById('score-b').addEventListener('input', function() {
             document.getElementById('score-b-display').textContent = this.value || '0';
+            document.getElementById('score-b-display-short').textContent = this.value || '0';
             calculatePredictions();
         });
         
@@ -1095,9 +1200,11 @@
                     // Обновляем заголовки в статистике
                     if (this.id === 'team-a') {
                         document.getElementById('team-a-header').textContent = tempInput.value;
+                        document.getElementById('team-a-label').textContent = tempInput.value;
                         document.getElementById('team-a-short').textContent = tempInput.value.substring(0, 3).toUpperCase();
                     } else {
                         document.getElementById('team-b-header').textContent = tempInput.value;
+                        document.getElementById('team-b-label').textContent = tempInput.value;
                         document.getElementById('team-b-short').textContent = tempInput.value.substring(0, 3).toUpperCase();
                     }
                 };
@@ -1167,7 +1274,7 @@
                 tempInput.value = currentValue;
                 tempInput.classList.add('stat-input');
                 tempInput.setAttribute('readonly', 'readonly');
-                tempInput.style.fontSize = '1.2rem';
+                tempInput.style.fontSize = '1.1rem';
                 tempInput.style.fontWeight = 'bold';
                 tempInput.style.textAlign = 'center';
                 tempInput.style.width = '100%';
@@ -1203,6 +1310,7 @@
                 
                 if (activeInput) {
                     activeInput.value += key;
+                    updateDataDisplay();
                     calculatePredictions(); // Автоматический расчет
                 } else if (activeStatField) {
                     const inputField = activeStatField.querySelector('input');
@@ -1232,6 +1340,7 @@
         document.getElementById('keyboard-backspace').addEventListener('click', function() {
             if (activeInput) {
                 activeInput.value = activeInput.value.slice(0, -1);
+                updateDataDisplay();
                 calculatePredictions(); // Автоматический расчет
             } else if (activeStatField) {
                 const inputField = activeStatField.querySelector('input');
@@ -1284,6 +1393,7 @@
                 this.classList.add('active');
                 document.getElementById('current-period').value = this.dataset.period;
                 updateMatchTimeDisplay();
+                updateDataDisplay();
                 calculatePredictions();
             });
         });
@@ -1336,24 +1446,27 @@
                 document.getElementById('score-a-display').textContent = '0';
                 document.getElementById('score-b-display').textContent = '0';
                 
+                // Обновляем отображение данных
+                updateDataDisplay();
+                
                 // Сбрасываем период
                 document.getElementById('current-period').value = '3';
                 document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
                 document.querySelector('[data-period="3"]').classList.add('active');
                 
                 // Сбрасываем статистику
-                document.getElementById('italy-free-throws').textContent = '0/0 (0%)';
-                document.getElementById('spain-free-throws').textContent = '0/0 (0%)';
-                document.getElementById('italy-two-pointers').textContent = '0';
-                document.getElementById('spain-two-pointers').textContent = '0';
-                document.getElementById('italy-three-pointers').textContent = '0';
-                document.getElementById('spain-three-pointers').textContent = '0';
-                document.getElementById('italy-fouls').textContent = '0';
-                document.getElementById('spain-fouls').textContent = '0';
-                document.getElementById('italy-rebounds').textContent = '0';
-                document.getElementById('spain-rebounds').textContent = '0';
-                document.getElementById('italy-turnovers').textContent = '0';
-                document.getElementById('spain-turnovers').textContent = '0';
+                document.getElementById('team-a-free-throws').textContent = '0/0 (0%)';
+                document.getElementById('team-b-free-throws').textContent = '0/0 (0%)';
+                document.getElementById('team-a-two-pointers').textContent = '0';
+                document.getElementById('team-b-two-pointers').textContent = '0';
+                document.getElementById('team-a-three-pointers').textContent = '0';
+                document.getElementById('team-b-three-pointers').textContent = '0';
+                document.getElementById('team-a-fouls').textContent = '0';
+                document.getElementById('team-b-fouls').textContent = '0';
+                document.getElementById('team-a-rebounds').textContent = '0';
+                document.getElementById('team-b-rebounds').textContent = '0';
+                document.getElementById('team-a-turnovers').textContent = '0';
+                document.getElementById('team-b-turnovers').textContent = '0';
                 
                 // Сбрасываем коэффициенты
                 document.getElementById('odds-p1').textContent = '1.00';
@@ -1415,18 +1528,18 @@
             const avgPoints = parseInt(document.getElementById('avg-points').value) || (isCyber ? 45 : 45);
             
             // Получаем значения статистики
-            const italyFreeThrows = document.getElementById('italy-free-throws').textContent;
-            const spainFreeThrows = document.getElementById('spain-free-throws').textContent;
-            const italyTwoPointers = parseInt(document.getElementById('italy-two-pointers').textContent) || 0;
-            const spainTwoPointers = parseInt(document.getElementById('spain-two-pointers').textContent) || 0;
-            const italyThreePointers = parseInt(document.getElementById('italy-three-pointers').textContent) || 0;
-            const spainThreePointers = parseInt(document.getElementById('spain-three-pointers').textContent) || 0;
-            const italyFouls = parseInt(document.getElementById('italy-fouls').textContent) || 0;
-            const spainFouls = parseInt(document.getElementById('spain-fouls').textContent) || 0;
-            const italyRebounds = parseInt(document.getElementById('italy-rebounds').textContent) || 0;
-            const spainRebounds = parseInt(document.getElementById('spain-rebounds').textContent) || 0;
-            const italyTurnovers = parseInt(document.getElementById('italy-turnovers').textContent) || 0;
-            const spainTurnovers = parseInt(document.getElementById('spain-turnovers').textContent) || 0;
+            const teamAFreeThrows = document.getElementById('team-a-free-throws').textContent;
+            const teamBFreeThrows = document.getElementById('team-b-free-throws').textContent;
+            const teamATwoPointers = parseInt(document.getElementById('team-a-two-pointers').textContent) || 0;
+            const teamBTwoPointers = parseInt(document.getElementById('team-b-two-pointers').textContent) || 0;
+            const teamAThreePointers = parseInt(document.getElementById('team-a-three-pointers').textContent) || 0;
+            const teamBThreePointers = parseInt(document.getElementById('team-b-three-pointers').textContent) || 0;
+            const teamAFouls = parseInt(document.getElementById('team-a-fouls').textContent) || 0;
+            const teamBFouls = parseInt(document.getElementById('team-b-fouls').textContent) || 0;
+            const teamARebounds = parseInt(document.getElementById('team-a-rebounds').textContent) || 0;
+            const teamBRebounds = parseInt(document.getElementById('team-b-rebounds').textContent) || 0;
+            const teamATurnovers = parseInt(document.getElementById('team-a-turnovers').textContent) || 0;
+            const teamBTurnovers = parseInt(document.getElementById('team-b-turnovers').textContent) || 0;
             
             // Получаем коэффициенты букмекеров
             const oddsP1 = parseFloat(document.getElementById('odds-p1').textContent) || 0;
@@ -1437,6 +1550,8 @@
             // Обновляем счет в матче
             document.getElementById('score-a-display').textContent = scoreA || '0';
             document.getElementById('score-b-display').textContent = scoreB || '0';
+            document.getElementById('score-a-display-short').textContent = scoreA || '0';
+            document.getElementById('score-b-display-short').textContent = scoreB || '0';
             
             // Парсим оставшееся время
             const timeParts = timeRemaining.split(':');
@@ -1461,11 +1576,11 @@
             const gamePace = totalPoints > 0 ? (totalPoints / elapsedMinutes).toFixed(2) : "0.00";
             
             // Рассчитываем эффективность команд на основе статистики
-            const italyEfficiency = calculateEfficiency(italyTwoPointers, italyThreePointers, italyFreeThrows, italyRebounds, italyTurnovers);
-            const spainEfficiency = calculateEfficiency(spainTwoPointers, spainThreePointers, spainFreeThrows, spainRebounds, spainTurnovers);
+            const teamAEfficiency = calculateEfficiency(teamATwoPointers, teamAThreePointers, teamAFreeThrows, teamARebounds, teamATurnovers);
+            const teamBEfficiency = calculateEfficiency(teamBTwoPointers, teamBThreePointers, teamBFreeThrows, teamBRebounds, teamBTurnovers);
             
             // Корректируем темп игры на основе эффективности
-            const efficiencyFactor = (italyEfficiency + spainEfficiency) / 2;
+            const efficiencyFactor = (teamAEfficiency + teamBEfficiency) / 2;
             
             // Учет времени матча для корректировки прогноза
             const timeFactor = calculateTimeFactor(currentPeriod, totalRemainingSeconds, champ);
@@ -1483,12 +1598,12 @@
             }
             
             // Корректируем прогноз на основе фолов (больше фолов -> больше штрафных)
-            const foulFactor = 1 + ((italyFouls + spainFouls) / 40) * 0.1;
+            const foulFactor = 1 + ((teamAFouls + teamBFouls) / 40) * 0.1;
             totalProjected = Math.round(totalProjected * foulFactor);
             
             // Прогнозируем окончательный счет
             const pointsDiff = scoreA - scoreB;
-            const efficiencyDiff = italyEfficiency - spainEfficiency;
+            const efficiencyDiff = teamAEfficiency - teamBEfficiency;
             let projectedDiff;
             
             if (!isOvertime) {
@@ -1501,7 +1616,7 @@
             }
             
             // Рассчитываем вероятности победы
-            const winProbabilityA = calculateWinProbability(scoreA, scoreB, italyEfficiency, spainEfficiency, elapsedMinutes, currentPeriod, timeFactor, champ);
+            const winProbabilityA = calculateWinProbability(scoreA, scoreB, teamAEfficiency, teamBEfficiency, elapsedMinutes, currentPeriod, timeFactor, champ);
             const winProbabilityB = 100 - winProbabilityA;
             
             // Рассчитываем наши коэффициенты на основе вероятностей
@@ -1614,7 +1729,7 @@
             const isCyber = champ.periodLength === 5; // Проверка на кибербаскетбол
 
             if (periodNum <= champ.periods) {
-                // Основные периоды
+                // Основные периodes
                 if (champ.periods === 2) {
                     // Для формата с двумя таймами
                     baseFactor = periodNum === 1 ? 1.1 : 0.9;
@@ -1719,6 +1834,7 @@
         // Инициализация расчетов при загрузке
         window.addEventListener('load', function() {
             updateMatchTimeDisplay();
+            updateDataDisplay();
             calculatePredictions();
             
             // На iOS устройствах отключаем стандартную клавиатуру
@@ -1752,16 +1868,21 @@
             
             // Автоматический расчет при изменении данных
             document.querySelectorAll('input').forEach(input => {
-                input.addEventListener('input', calculatePredictions);
+                input.addEventListener('input', function() {
+                    updateDataDisplay();
+                    calculatePredictions();
+                });
             });
             
             document.getElementById('current-period').addEventListener('change', function() {
                 updateMatchTimeDisplay();
+                updateDataDisplay();
                 calculatePredictions();
             });
             
             document.getElementById('time-remaining').addEventListener('input', function() {
                 updateMatchTimeDisplay();
+                updateDataDisplay();
                 calculatePredictions();
             });
         });
