@@ -3,10 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="apple-touch-icon" sizes="180x180" href="icons/icon196.png">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="BSK1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
     <title>Баскетбол. Калькулятор исходов</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -28,6 +24,8 @@
             --input-bg: rgba(255, 255, 255, 0.9);
             --input-color: #333;
             --stats-bg: rgba(40, 40, 60, 0.6);
+            --men-color: #3498db;
+            --women-color: #e91e63;
         }
         
         body.light-theme {
@@ -151,9 +149,52 @@
             margin-top: 2px;
         }
         
+        .gender-selector {
+            position: fixed;
+            top: 60px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            padding: 5px;
+            z-index: 100;
+            cursor: pointer;
+            width: 180px;
+        }
+        
+        .gender-buttons {
+            display: flex;
+            background: var(--card-bg);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .gender-btn {
+            flex: 1;
+            padding: 8px;
+            text-align: center;
+            background: rgba(37, 37, 64, 0.8);
+            cursor: pointer;
+            transition: background 0.3s;
+            font-size: 0.85rem;
+        }
+        
+        .gender-btn.active {
+            background: var(--primary-color);
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+        
+        .gender-btn.men.active {
+            background: var(--men-color);
+        }
+        
+        .gender-btn.women.active {
+            background: var(--women-color);
+        }
+        
         header {
             text-align: center;
-            padding: 40px 0 15px 0;
+            padding: 80px 0 15px 0;
             margin-bottom: 10px;
             position: relative;
         }
@@ -333,9 +374,16 @@
                 max-width: 600px;
             }
             
-            .championship-selector {
+            .championship-selector, .gender-selector {
                 left: 15px;
+            }
+            
+            .championship-selector {
                 top: 15px;
+            }
+            
+            .gender-selector {
+                top: 70px;
             }
             
             .theme-switcher {
@@ -475,7 +523,6 @@
             text-align: center;
             margin-top: 15px;
             padding-top: 12px;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
             color: var(--text-color);
             font-size: 0.75rem;
             opacity: 0.8;
@@ -528,7 +575,6 @@
             font-weight: bold;
         }
         
-        /* Кастомная клавиатура */
         .custom-keyboard {
             display: none;
             position: fixed;
@@ -580,18 +626,15 @@
             color: white;
         }
         
-        /* Убираем выделение при фокусе на iOS */
         input:focus, select:focus {
             outline: none;
             -webkit-tap-highlight-color: transparent;
         }
         
-        /* Стиль для активного поля ввода */
         .input-active {
             box-shadow: 0 0 0 2px var(--primary-color);
         }
         
-        /* Стиль для редактируемой статистики */
         .edit-icon {
             margin-left: 5px;
             color: var(--primary-color);
@@ -614,7 +657,6 @@
             background: #5c6bc0;
         }
         
-        /* Стиль для поля ввода при редактировании статистики */
         .stat-input {
             width: 100%;
             background: transparent;
@@ -667,9 +709,15 @@
             font-weight: bold;
         }
         
-        /* Предотвращение масштабирования на iOS */
         body {
             touch-action: manipulation;
+        }
+        
+        .psychology-note {
+            font-size: 0.75rem;
+            margin-top: 4px;
+            color: #fdbb2d;
+            font-style: italic;
         }
     </style>
 </head>
@@ -711,6 +759,13 @@
                     Кибербаскетбол (4×5 мин)
                     <div class="championship-format">4 периода по 5 минут, овертайм 2 минуты</div>
                 </div>
+            </div>
+        </div>
+        
+        <div class="gender-selector" id="gender-selector">
+            <div class="gender-buttons">
+                <div class="gender-btn men active" data-gender="men">Мужчины</div>
+                <div class="gender-btn women" data-gender="women">Женщины</div>
             </div>
         </div>
         
@@ -956,6 +1011,7 @@
                     <div class="result-card full-width">
                         <div class="result-title">Рекомендуемая ставка:</div>
                         <div class="result-value" id="recommended-bet">--</div>
+                        <div class="psychology-note" id="psychology-note"></div>
                     </div>
                     
                     <div class="result-card full-width">
@@ -1021,6 +1077,9 @@
 
         // Текущий выбранный чемпионат
         let currentChampionship = 'nba';
+        
+        // Текущий выбранный пол
+        let currentGender = 'men';
 
         // Обновление текущего времени
         function updateTime() {
@@ -1063,6 +1122,20 @@
                 
                 // Скрываем dropdown
                 document.getElementById('championship-dropdown').classList.remove('show');
+                
+                // Пересчитываем прогнозы
+                calculatePredictions();
+            });
+        });
+        
+        // Обработчики для выбора пола
+        document.querySelectorAll('.gender-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                currentGender = this.dataset.gender;
+                
+                // Убираем активный класс у всех кнопок и добавляем текущей
+                document.querySelectorAll('.gender-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
                 
                 // Пересчитываем прогнозы
                 calculatePredictions();
@@ -1456,71 +1529,7 @@
         // Обработчик кнопки очистки
         document.getElementById('clear-btn').addEventListener('click', function() {
             if (confirm('Вы уверены, что хотите очистить все данные?')) {
-                // Очищаем поля ввода
-                document.getElementById('total-line').value = '';
-                document.getElementById('handicap-line').value = '';
-                document.getElementById('time-remaining').value = '';
-                document.getElementById('score-a').value = '';
-                document.getElementById('score-b').value = '';
-                document.getElementById('avg-points').value = '';
-
-                // Сбрасываем счет
-                document.getElementById('score-a-display').textContent = '';
-                document.getElementById('score-b-display').textContent = '';
-
-                // Обновляем отображение данных
-                updateDataDisplay();
-
-                // Сбрасываем период
-                document.getElementById('current-period').value = '3';
-                document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
-                document.querySelector('[data-period="3"]').classList.add('active');
-
-                // Сбрасываем статистику
-                document.getElementById('team-a-free-throws').textContent = '';
-                document.getElementById('team-b-free-throws').textContent = '';
-                document.getElementById('team-a-two-pointers').textContent = '';
-                document.getElementById('team-b-two-pointers').textContent = '';
-                document.getElementById('team-a-three-pointers').textContent = '';
-                document.getElementById('team-b-three-pointers').textContent = '';
-                document.getElementById('team-a-fouls').textContent = '';
-                document.getElementById('team-b-fouls').textContent = '';
-                document.getElementById('team-a-rebounds').textContent = '';
-                document.getElementById('team-b-rebounds').textContent = '';
-                document.getElementById('team-a-turnovers').textContent = '';
-                document.getElementById('team-b-turnovers').textContent = '';
-
-                // Сбрасываем коэффициенты
-                document.getElementById('odds-p1').textContent = '';
-                document.getElementById('odds-p2').textContent = '';
-                document.getElementById('odds-total-over').textContent = '';
-                document.getElementById('odds-total-under').textContent = '';
-
-                // Обновляем отображение времени
-                updateMatchTimeDisplay();
-
-                // Скрываем клавиатуру
-                keyboard.style.display = 'none';
-
-                // Сбрасываем результаты
-                document.getElementById('predicted-total').textContent = '--';
-                document.getElementById('total-recommendation').textContent = '--';
-                document.getElementById('predicted-handicap').textContent = '--';
-                document.getElementById('handicap-recommendation').textContent = '--';
-                document.getElementById('game-pace').textContent = '--';
-                document.getElementById('period-prediction').textContent = '--';
-                document.getElementById('win-probability-a').textContent = '--';
-                document.getElementById('win-probability-b').textContent = '--';
-                document.getElementById('recommended-bet').textContent = '--';
-                document.getElementById('time-impact').textContent = '--';
-                document.getElementById('time-factor-display').textContent = '--';
-                document.getElementById('calculated-p1').textContent = '--';
-                document.getElementById('calculated-p2').textContent = '--';
-                document.getElementById('calculated-total-over').textContent = '--';
-                document.getElementById('calculated-total-under').textContent = '--';
-
-                // Показываем сообщение
-                alert('Все данные очищены!');
+                location.reload(); // Просто перезагружаем страницу
             }
         });
         
@@ -1551,11 +1560,11 @@
             updateTime();
         }
         
-        // Функция расчета прогнозов с учетом статистики и времени
+        // Функция расчета прогнозов с учетом пола и психологических факторов
         function calculatePredictions() {
             const champ = championships[currentChampionship];
-            const isCyber = champ.periodLength === 5; // Определяем, является ли чемпионат кибербаскетболом
-            
+            const isCyber = champ.periodLength === 5;
+
             // Получаем значения из формы
             const totalLine = parseFloat(document.getElementById('total-line').value) || 0;
             const handicapLine = parseFloat(document.getElementById('handicap-line').value) || 0;
@@ -1622,7 +1631,11 @@
             
             // Учет времени матча для корректировки прогноза
             const timeFactor = calculateTimeFactor(currentPeriod, totalRemainingSeconds, champ);
-            const adjustedGamePace = totalPoints > 0 ? (parseFloat(gamePace) * efficiencyFactor * timeFactor).toFixed(2) : "0.00";
+            
+            // Учет пола спортсменов для корректировки прогноза
+            const genderFactor = calculateGenderFactor(currentGender, currentPeriod, totalRemainingSeconds);
+            
+            const adjustedGamePace = totalPoints > 0 ? (parseFloat(gamePace) * efficiencyFactor * timeFactor * genderFactor.pace).toFixed(2) : "0.00";
             
             // Прогнозируем общее количество очков в матче
             let totalProjected;
@@ -1646,15 +1659,15 @@
             
             if (!isOvertime) {
                 const remainingTime = (champ.periodLength * champ.periods) - elapsedMinutes;
-                projectedDiff = Math.round(pointsDiff + (efficiencyDiff * remainingTime * timeFactor));
+                projectedDiff = Math.round(pointsDiff + (efficiencyDiff * remainingTime * timeFactor * genderFactor.performance));
             } else {
                 const overtimeNum = currentPeriod === 'ot' ? 1 : parseInt(currentPeriod) - champ.periods;
                 const remainingTime = (champ.otLength * (overtimeNum)) - (champ.otLength - (totalRemainingSeconds / 60));
-                projectedDiff = Math.round(pointsDiff + (efficiencyDiff * remainingTime * timeFactor));
+                projectedDiff = Math.round(pointsDiff + (efficiencyDiff * remainingTime * timeFactor * genderFactor.performance));
             }
             
             // Рассчитываем вероятности победы
-            const winProbabilityA = calculateWinProbability(scoreA, scoreB, teamAEfficiency, teamBEfficiency, elapsedMinutes, currentPeriod, timeFactor, champ);
+            const winProbabilityA = calculateWinProbability(scoreA, scoreB, teamAEfficiency, teamBEfficiency, elapsedMinutes, currentPeriod, timeFactor, champ, genderFactor);
             const winProbabilityB = 100 - winProbabilityA;
             
             // Рассчитываем наши коэффициенты на основе вероятностей
@@ -1732,6 +1745,9 @@
             document.getElementById('recommended-bet').className = 'result-value ' + 
                 (recommendedBet.includes('VALUE BET') ? 'positive' : 'neutral');
             
+            // Психологическая заметка
+            document.getElementById('psychology-note').textContent = genderFactor.note;
+            
             // Обновляем расчетные коэффициенты
             document.getElementById('calculated-p1').textContent = calculatedP1;
             document.getElementById('calculated-p2').textContent = calculatedP2;
@@ -1764,7 +1780,7 @@
             // Базовый коэффициент в зависимости от периода
             let baseFactor;
             const periodNum = period === 'ot' ? champ.periods + 1 : parseInt(period);
-            const isCyber = champ.periodLength === 5; // Проверка на кибербаскетбол
+            const isCyber = champ.periodLength === 5;
 
             if (periodNum <= champ.periods) {
                 // Основные периodes
@@ -1774,10 +1790,10 @@
                 } else {
                     // Для формата с четырьмя периодами
                     switch(periodNum) {
-                        case 1: baseFactor = isCyber ? 1.0 : 1.1; break; // В кибербаскетболе темп более ровный
+                        case 1: baseFactor = isCyber ? 1.0 : 1.1; break;
                         case 2: baseFactor = 1.0; break;
-                        case 3: baseFactor = isCyber ? 1.0 : 0.95; break; // В кибербаскетболе темп более ровный
-                        case 4: baseFactor = isCyber ? 0.95 : 0.9; break; // Небольшое замедление в конце
+                        case 3: baseFactor = isCyber ? 1.0 : 0.95; break;
+                        case 4: baseFactor = isCyber ? 0.95 : 0.9; break;
                         default: baseFactor = 1.0;
                     }
                 }
@@ -1787,19 +1803,64 @@
             }
 
             // Корректировка на основе оставшегося времени
-            // В конце периода темп обычно замедляется. Эффект более выражен в длительных периодах.
             const periodLength = periodNum <= champ.periods ? champ.periodLength : champ.otLength;
-            const timeImpact = isCyber ? 0.1 : 0.2; // Меньшее влияние оставшегося времени в кибербаскетболе
+            const timeImpact = isCyber ? 0.1 : 0.2;
             const timeFactor = 1 - (remainingSeconds / (periodLength * 60)) * timeImpact;
 
             return baseFactor * timeFactor;
+        }
+        
+        // Функция расчета коэффициента пола и психологических факторов
+        function calculateGenderFactor(gender, period, remainingSeconds) {
+            const periodNum = parseInt(period);
+            let paceFactor = 1.0;
+            let performanceFactor = 1.0;
+            let note = "";
+            
+            if (gender === 'men') {
+                // Мужчины: более агрессивны в концовке, выше темп, но больше ошибок под давлением
+                paceFactor = 1.1;
+                if (periodNum >= 4 || period === 'ot') {
+                    performanceFactor = 1.05; // Мужчины лучше проявляют себя в напряженных моментах
+                    note = "Мужчины: выше агрессия в концовке, больше риска";
+                } else {
+                    performanceFactor = 1.0;
+                    note = "Мужчины: стабильная игра, высокий темп";
+                }
+            } else {
+                // Женщины: более стабильны, меньше ошибок под давлением, но ниже темп
+                paceFactor = 0.95;
+                if (periodNum >= 4 || period === 'ot') {
+                    performanceFactor = 0.98; // Женщины более стабильны под давлением
+                    note = "Женщины: выше стабильность в концовке, меньше ошибок";
+                } else {
+                    performanceFactor = 1.0;
+                    note = "Женщины: стабильная игра, точные броски";
+                }
+            }
+            
+            // Учет оставшегося времени
+            const remainingTimeImpact = (remainingSeconds / 60) / 10; // Влияние оставшегося времени
+            if (remainingSeconds < 120) { // Менее 2 минут
+                if (gender === 'men') {
+                    performanceFactor *= 1.05; // Мужчины лучше в последние минуты
+                } else {
+                    performanceFactor *= 1.02; // Женщины стабильны в концовке
+                }
+            }
+            
+            return {
+                pace: paceFactor,
+                performance: performanceFactor,
+                note: note
+            };
         }
         
         // Функция расчета эффективности команды
         function calculateEfficiency(twoPointers, threePointers, freeThrows, rebounds, turnovers) {
             // Извлекаем процент попадания штрафных бросков
             const freeThrowMatch = freeThrows.match(/(\d+)\/(\d+)/);
-            let freeThrowPercentage = 0.7; // значение по умолчанию
+            let freeThrowPercentage = 0.7;
             
             if (freeThrowMatch) {
                 const made = parseInt(freeThrowMatch[1]);
@@ -1816,14 +1877,13 @@
             return 0.8 + (shootingEfficiency * 0.5 + freeThrowPercentage * 0.3 + reboundEfficiency * 0.1 + turnoverEfficiency * 0.1);
         }
         
-        // Функция расчета вероятности победы с учетом формата чемпионата
-        function calculateWinProbability(scoreA, scoreB, efficiencyA, efficiencyB, elapsedMinutes, currentPeriod, timeFactor, champ) {
+        // Функция расчета вероятности победы с учетом формата чемпионата и пола
+        function calculateWinProbability(scoreA, scoreB, efficiencyA, efficiencyB, elapsedMinutes, currentPeriod, timeFactor, champ, genderFactor) {
             const scoreDiff = scoreA - scoreB;
             const efficiencyDiff = efficiencyA - efficiencyB;
-            const isCyber = champ.periodLength === 5; // Проверка на кибербаскетбол
+            const isCyber = champ.periodLength === 5;
             
             // Базовая вероятность на основе текущего счета
-            // Для кибербаскетбола разрыв в очках весит немного больше
             const scoreWeight = isCyber ? 0.7 : 0.5;
             let baseProbability = 50 + (scoreDiff * scoreWeight);
             
@@ -1848,6 +1908,9 @@
             
             // Корректировка на основе темпа игры
             baseProbability *= timeFactor;
+            
+            // Корректировка на основе пола
+            baseProbability *= genderFactor.performance;
             
             // Ограничиваем вероятность в диапазоне 1-99%
             return Math.max(1, Math.min(99, baseProbability));
