@@ -419,6 +419,22 @@
             gap: 8px;
         }
         
+        .result-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+        
+        @media (min-width: 480px) {
+            .result-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .result-card.full-width {
+                grid-column: 1 / -1;
+            }
+        }
+        
         .result-card {
             background: rgba(40, 40, 60, 0.9);
             padding: 10px;
@@ -649,6 +665,11 @@
         .data-value {
             font-size: 1rem;
             font-weight: bold;
+        }
+        
+        /* Предотвращение масштабирования на iOS */
+        body {
+            touch-action: manipulation;
         }
     </style>
 </head>
@@ -891,56 +912,57 @@
             
             <div class="result-section">
                 <h2>Результаты анализа</h2>
-                
-                <div class="result-card">
-                    <div class="result-title">Прогноз тотал матча:</div>
-                    <div class="result-value" id="predicted-total">--</div>
-                </div>
-                
-                <div class="result-card">
-                    <div class="result-title">Рекомендация по тоталу:</div>
-                    <div class="result-value" id="total-recommendation">--</div>
-                </div>
-                
-                <div class="result-card">
-                    <div class="result-title">Прогноз фора:</div>
-                    <div class="result-value" id="predicted-handicap">--</div>
-                </div>
-                
-                <div class="result-card">
-                    <div class="result-title">Рекомендация по форе:</div>
-                    <div class="result-value" id="handicap-recommendation">--</div>
-                </div>
-                
-                <div class="result-card">
-                    <div class="result-title">Темп игры:</div>
-                    <div class="result-value" id="game-pace">--</div>
-                </div>
-                
-                <div class="result-card">
-                    <div class="result-title">Прогноз на конец периода:</div>
-                    <div class="result-value" id="period-prediction">--</div>
-                </div>
-                
-                <div class="result-card">
-                    <div class="result-title">Вероятность победы команды А:</div>
-                    <div class="result-value" id="win-probability-a">--</div>
-                </div>
-                
-                <div class="result-card">
-                    <div class="result-title">Вероятность победы команды Б:</div>
-                    <div class="result-value" id="win-probability-b">--</div>
-                </div>
-                
-                <div class="result-card">
-                    <div class="result-title">Рекомендуемая ставка:</div>
-                    <div class="result-value" id="recommended-bet">--</div>
-                </div>
-                
-                <div class="result-card">
-                    <div class="result-title">Влияние времени на прогноз:</div>
-                    <div class="result-value" id="time-impact">--</div>
-                    <div class="time-factor-display" id="time-factor-display">--</div>
+                <div class="result-grid">
+                    <div class="result-card">
+                        <div class="result-title">Прогноз тотал матча:</div>
+                        <div class="result-value" id="predicted-total">--</div>
+                    </div>
+                    
+                    <div class="result-card">
+                        <div class="result-title">Рекомендация по тоталу:</div>
+                        <div class="result-value" id="total-recommendation">--</div>
+                    </div>
+                    
+                    <div class="result-card">
+                        <div class="result-title">Прогноз фора:</div>
+                        <div class="result-value" id="predicted-handicap">--</div>
+                    </div>
+                    
+                    <div class="result-card">
+                        <div class="result-title">Рекомендация по форе:</div>
+                        <div class="result-value" id="handicap-recommendation">--</div>
+                    </div>
+                    
+                    <div class="result-card">
+                        <div class="result-title">Темп игры:</div>
+                        <div class="result-value" id="game-pace">--</div>
+                    </div>
+                    
+                    <div class="result-card">
+                        <div class="result-title">Прогноз на конец периода:</div>
+                        <div class="result-value" id="period-prediction">--</div>
+                    </div>
+                    
+                    <div class="result-card">
+                        <div class="result-title">Вероятность победы команды А:</div>
+                        <div class="result-value" id="win-probability-a">--</div>
+                    </div>
+                    
+                    <div class="result-card">
+                        <div class="result-title">Вероятность победы команды Б:</div>
+                        <div class="result-value" id="win-probability-b">--</div>
+                    </div>
+                    
+                    <div class="result-card full-width">
+                        <div class="result-title">Рекомендуемая ставка:</div>
+                        <div class="result-value" id="recommended-bet">--</div>
+                    </div>
+                    
+                    <div class="result-card full-width">
+                        <div class="result-title">Влияние времени на прогноз:</div>
+                        <div class="result-value" id="time-impact">--</div>
+                        <div class="time-factor-display" id="time-factor-display">--</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1153,20 +1175,20 @@
             document.getElementById('period-display').textContent = periodText;
             
             document.getElementById('time-display').textContent = document.getElementById('time-remaining').value || '--';
-            document.getElementById('score-a-display-short').textContent = document.getElementById('score-a').value || '0';
-            document.getElementById('score-b-display-short').textContent = document.getElementById('score-b').value || '0';
+            document.getElementById('score-a-display-short').textContent = document.getElementById('score-a').value || '--';
+            document.getElementById('score-b-display-short').textContent = document.getElementById('score-b').value || '--';
         }
         
         // Автоматическое обновление счета при изменении очков
         document.getElementById('score-a').addEventListener('input', function() {
-            document.getElementById('score-a-display').textContent = this.value || '0';
-            document.getElementById('score-a-display-short').textContent = this.value || '0';
+            document.getElementById('score-a-display').textContent = this.value || '';
+            document.getElementById('score-a-display-short').textContent = this.value || '';
             calculatePredictions();
         });
         
         document.getElementById('score-b').addEventListener('input', function() {
-            document.getElementById('score-b-display').textContent = this.value || '0';
-            document.getElementById('score-b-display-short').textContent = this.value || '0';
+            document.getElementById('score-b-display').textContent = this.value || '';
+            document.getElementById('score-b-display-short').textContent = this.value || '';
             calculatePredictions();
         });
         
@@ -1403,7 +1425,7 @@
             tab.addEventListener('click', function() {
                 const tabId = this.dataset.tab;
                 
-                // Убираем активный класс у всех вкладок
+                // Убираем активный класс у всех вкладков
                 document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
                 // Добавляем активный класс текущей вкладке
                 this.classList.add('active');
@@ -1437,52 +1459,66 @@
                 // Очищаем поля ввода
                 document.getElementById('total-line').value = '';
                 document.getElementById('handicap-line').value = '';
-                document.getElementById('time-remaining').value = '5:00';
+                document.getElementById('time-remaining').value = '';
                 document.getElementById('score-a').value = '';
                 document.getElementById('score-b').value = '';
                 document.getElementById('avg-points').value = '';
-                
+
                 // Сбрасываем счет
-                document.getElementById('score-a-display').textContent = '0';
-                document.getElementById('score-b-display').textContent = '0';
-                
+                document.getElementById('score-a-display').textContent = '';
+                document.getElementById('score-b-display').textContent = '';
+
                 // Обновляем отображение данных
                 updateDataDisplay();
-                
+
                 // Сбрасываем период
                 document.getElementById('current-period').value = '3';
                 document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
                 document.querySelector('[data-period="3"]').classList.add('active');
-                
+
                 // Сбрасываем статистику
-                document.getElementById('team-a-free-throws').textContent = '0/0 (0%)';
-                document.getElementById('team-b-free-throws').textContent = '0/0 (0%)';
-                document.getElementById('team-a-two-pointers').textContent = '0';
-                document.getElementById('team-b-two-pointers').textContent = '0';
-                document.getElementById('team-a-three-pointers').textContent = '0';
-                document.getElementById('team-b-three-pointers').textContent = '0';
-                document.getElementById('team-a-fouls').textContent = '0';
-                document.getElementById('team-b-fouls').textContent = '0';
-                document.getElementById('team-a-rebounds').textContent = '0';
-                document.getElementById('team-b-rebounds').textContent = '0';
-                document.getElementById('team-a-turnovers').textContent = '0';
-                document.getElementById('team-b-turnovers').textContent = '0';
-                
+                document.getElementById('team-a-free-throws').textContent = '';
+                document.getElementById('team-b-free-throws').textContent = '';
+                document.getElementById('team-a-two-pointers').textContent = '';
+                document.getElementById('team-b-two-pointers').textContent = '';
+                document.getElementById('team-a-three-pointers').textContent = '';
+                document.getElementById('team-b-three-pointers').textContent = '';
+                document.getElementById('team-a-fouls').textContent = '';
+                document.getElementById('team-b-fouls').textContent = '';
+                document.getElementById('team-a-rebounds').textContent = '';
+                document.getElementById('team-b-rebounds').textContent = '';
+                document.getElementById('team-a-turnovers').textContent = '';
+                document.getElementById('team-b-turnovers').textContent = '';
+
                 // Сбрасываем коэффициенты
-                document.getElementById('odds-p1').textContent = '1.00';
-                document.getElementById('odds-p2').textContent = '1.00';
-                document.getElementById('odds-total-over').textContent = '1.00';
-                document.getElementById('odds-total-under').textContent = '1.00';
-                
+                document.getElementById('odds-p1').textContent = '';
+                document.getElementById('odds-p2').textContent = '';
+                document.getElementById('odds-total-over').textContent = '';
+                document.getElementById('odds-total-under').textContent = '';
+
                 // Обновляем отображение времени
                 updateMatchTimeDisplay();
-                
+
                 // Скрываем клавиатуру
                 keyboard.style.display = 'none';
-                
+
                 // Сбрасываем результаты
-                calculatePredictions();
-                
+                document.getElementById('predicted-total').textContent = '--';
+                document.getElementById('total-recommendation').textContent = '--';
+                document.getElementById('predicted-handicap').textContent = '--';
+                document.getElementById('handicap-recommendation').textContent = '--';
+                document.getElementById('game-pace').textContent = '--';
+                document.getElementById('period-prediction').textContent = '--';
+                document.getElementById('win-probability-a').textContent = '--';
+                document.getElementById('win-probability-b').textContent = '--';
+                document.getElementById('recommended-bet').textContent = '--';
+                document.getElementById('time-impact').textContent = '--';
+                document.getElementById('time-factor-display').textContent = '--';
+                document.getElementById('calculated-p1').textContent = '--';
+                document.getElementById('calculated-p2').textContent = '--';
+                document.getElementById('calculated-total-over').textContent = '--';
+                document.getElementById('calculated-total-under').textContent = '--';
+
                 // Показываем сообщение
                 alert('Все данные очищены!');
             }
@@ -1509,7 +1545,9 @@
                             period === 'ot' ? 'Овертайм' : `${period}-й овертайм`;
             }
             
-            document.getElementById('match-time-editable').innerHTML = `${periodText}, ${timeRemaining} | Время: <span id="current-time">--:--:--</span>`;
+            // Если время пустое, не отображаем его
+            const timeDisplay = timeRemaining ? `, ${timeRemaining}` : '';
+            document.getElementById('match-time-editable').innerHTML = `${periodText}${timeDisplay} | Время: <span id="current-time">--:--:--</span>`;
             updateTime();
         }
         
@@ -1548,10 +1586,10 @@
             const oddsTotalUnder = parseFloat(document.getElementById('odds-total-under').textContent) || 0;
             
             // Обновляем счет в матче
-            document.getElementById('score-a-display').textContent = scoreA || '0';
-            document.getElementById('score-b-display').textContent = scoreB || '0';
-            document.getElementById('score-a-display-short').textContent = scoreA || '0';
-            document.getElementById('score-b-display-short').textContent = scoreB || '0';
+            document.getElementById('score-a-display').textContent = scoreA || '';
+            document.getElementById('score-b-display').textContent = scoreB || '';
+            document.getElementById('score-a-display-short').textContent = scoreA || '';
+            document.getElementById('score-b-display-short').textContent = scoreB || '';
             
             // Парсим оставшееся время
             const timeParts = timeRemaining.split(':');
