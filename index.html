@@ -2,10 +2,6 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <link rel="apple-touch-icon" sizes="180x180" href="icons/icon196.png">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="BSK1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Баскетбол. Калькулятор исходов</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -65,21 +61,30 @@
             box-shadow: none;
         }
         
-        .theme-switcher {
+        .header-controls {
             position: fixed;
             top: 10px;
             right: 10px;
+            display: flex;
+            gap: 8px;
+            z-index: 100;
+        }
+        
+        .control-btn {
             background: rgba(0, 0, 0, 0.2);
             border-radius: 20px;
             padding: 5px;
             display: flex;
-            z-index: 100;
             cursor: pointer;
-        }
-        
-        .theme-icon {
             width: 30px;
             height: 30px;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .theme-icon, .help-icon {
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -390,7 +395,7 @@
                 top: 70px;
             }
             
-            .theme-switcher {
+            .header-controls {
                 right: 15px;
                 top: 15px;
             }
@@ -471,6 +476,16 @@
             gap: 8px;
         }
         
+        .instruction-btn {
+            background: #4caf50;
+            color: white;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
         .result-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -536,11 +551,12 @@
             display: flex;
             justify-content: space-between;
             margin-top: 12px;
+            flex-wrap: wrap;
         }
         
         .period-btn {
             flex: 1;
-            margin: 0 3px;
+            margin: 0 3px 5px 3px;
             padding: 5px;
             background: #3949ab;
             color: white;
@@ -548,6 +564,7 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 0.75rem;
+            min-width: 50px;
         }
         
         .period-btn.active {
@@ -723,13 +740,96 @@
             color: #fdbb2d;
             font-style: italic;
         }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 90%;
+            max-height: 80%;
+            overflow-y: auto;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 10px;
+        }
+        
+        .modal-title {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .instruction-step {
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+        }
+        
+        .instruction-step h3 {
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+        
+        .instruction-list {
+            padding-left: 20px;
+        }
+        
+        .instruction-list li {
+            margin-bottom: 5px;
+        }
+        
+        /* Убираем белую полосу в футере */
+        footer {
+            border-top: none;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="theme-switcher" id="theme-switcher">
-            <div class="theme-icon">
-                <i class="fas fa-moon"></i>
+        <div class="header-controls">
+            <div class="control-btn" id="help-btn">
+                <div class="help-icon">
+                    <i class="fas fa-question"></i>
+                </div>
+            </div>
+            <div class="control-btn" id="theme-switcher">
+                <div class="theme-icon">
+                    <i class="fas fa-moon"></i>
+                </div>
             </div>
         </div>
         
@@ -788,39 +888,39 @@
             <div class="team" id="team-a">Команда А</div>
             <div class="vs">VS</div>
             <div class="team" id="team-b">Команда Б</div>
-            <div class="score" id="score-a-display">62</div>
+            <div class="score" id="score-a-display">75</div>
             <div class="score">:</div>
-            <div class="score" id="score-b-display">63</div>
+            <div class="score" id="score-b-display">68</div>
         </div>
         
         <div class="time-display" id="match-time-editable">
-            4-я четверть, 09:29 | Время: <span id="current-time">--:--:--</span>
+            3-я четверть, 5:00 | Время: <span id="current-time">23:44:22</span>
         </div>
         
         <div class="data-grid">
             <div class="data-item">
                 <div class="data-label">Тотал</div>
-                <div class="data-value" id="total-display">180.5</div>
+                <div class="data-value" id="total-display">--</div>
             </div>
             <div class="data-item">
                 <div class="data-label">Фора</div>
-                <div class="data-value" id="handicap-display">-5.5</div>
+                <div class="data-value" id="handicap-display">--</div>
             </div>
             <div class="data-item">
                 <div class="data-label">Текущий период</div>
-                <div class="data-value" id="period-display">4-й</div>
+                <div class="data-value" id="period-display">3-й</div>
             </div>
             <div class="data-item">
                 <div class="data-label">Оставшееся время</div>
-                <div class="data-value" id="time-display">09:29</div>
+                <div class="data-value" id="time-display">5:00</div>
             </div>
             <div class="data-item">
                 <div class="data-label" id="team-a-label">Команда А</div>
-                <div class="data-value" id="score-a-display-short">62</div>
+                <div class="data-value" id="score-a-display-short">75</div>
             </div>
             <div class="data-item">
                 <div class="data-label" id="team-b-label">Команда Б</div>
-                <div class="data-value" id="score-b-display-short">63</div>
+                <div class="data-value" id="score-b-display-short">68</div>
             </div>
         </div>
         
@@ -1031,10 +1131,65 @@
             <i class="fas fa-trash-alt"></i> Очистить все данные
         </button>
         
+        <button class="instruction-btn" id="instruction-btn">
+            <i class="fas fa-info-circle"></i> Инструкция по использованию
+        </button>
+        
         <footer>
             <p>Аналитический инструмент для баскетбольных ставок.</p>
             <p>Ответственность за решения лежит на вас.</p>
         </footer>
+    </div>
+
+    <!-- Модальное окно инструкции -->
+    <div class="modal" id="instruction-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Инструкция по использованию</div>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="instruction-step">
+                <h3>1. Настройка параметров матча</h3>
+                <ul class="instruction-list">
+                    <li>Выберите формат чемпионата (NBA, ФИБА и др.)</li>
+                    <li>Укажите пол спортсменов (мужчины/женщины)</li>
+                    <li>Введите названия команд</li>
+                </ul>
+            </div>
+            <div class="instruction-step">
+                <h3>2. Ввод текущего состояния матча</h3>
+                <ul class="instruction-list">
+                    <li>Укажите текущий период и оставшееся время</li>
+                    <li>Введите текущий счет команд</li>
+                    <li>Заполните статистику матча (броски, фолы, подборы)</li>
+                </ul>
+            </div>
+            <div class="instruction-step">
+                <h3>3. Анализ коэффициентов</h3>
+                <ul class="instruction-list">
+                    <li>Введите коэффициенты букмекеров</li>
+                    <li>Изучите рассчитанные вероятности</li>
+                    <li>Обратите внимание на рекомендации системы</li>
+                </ul>
+            </div>
+            <div class="instruction-step">
+                <h3>4. Принятие решения</h3>
+                <ul class="instruction-list">
+                    <li>Сравните коэффициенты букмекера с расчетными</li>
+                    <li>Учитывайте психологические факторы (пол спортсменов)</li>
+                    <li>Принимайте взвешенное решение на основе анализа</li>
+                </ul>
+            </div>
+            <div class="instruction-step">
+                <h3>Советы для успеха:</h3>
+                <ul class="instruction-list">
+                    <li>Всегда анализируйте статистику перед ставкой</li>
+                    <li>Учитывайте время матча и текущий период</li>
+                    <li>Сравнивайте коэффициенты с расчетными значениями</li>
+                    <li>Помните о ответственности за свои решения</li>
+                </ul>
+            </div>
+        </div>
     </div>
 
     <!-- Кастомная клавиатура -->
@@ -1533,7 +1688,88 @@
         // Обработчик кнопки очистки
         document.getElementById('clear-btn').addEventListener('click', function() {
             if (confirm('Вы уверены, что хотите очистить все данные?')) {
-                location.reload(); // Просто перезагружаем страницу
+                // Очищаем поля ввода
+                document.getElementById('total-line').value = '';
+                document.getElementById('handicap-line').value = '';
+                document.getElementById('time-remaining').value = '';
+                document.getElementById('score-a').value = '';
+                document.getElementById('score-b').value = '';
+                document.getElementById('avg-points').value = '';
+
+                // Сбрасываем счет
+                document.getElementById('score-a-display').textContent = '';
+                document.getElementById('score-b-display').textContent = '';
+
+                // Обновляем отображение данных
+                updateDataDisplay();
+
+                // Сбрасываем период
+                document.getElementById('current-period').value = '3';
+                document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
+                document.querySelector('[data-period="3"]').classList.add('active');
+
+                // Сбрасываем статистику
+                document.getElementById('team-a-free-throws').textContent = '';
+                document.getElementById('team-b-free-throws').textContent = '';
+                document.getElementById('team-a-two-pointers').textContent = '';
+                document.getElementById('team-b-two-pointers').textContent = '';
+                document.getElementById('team-a-three-pointers').textContent = '';
+                document.getElementById('team-b-three-pointers').textContent = '';
+                document.getElementById('team-a-fouls').textContent = '';
+                document.getElementById('team-b-fouls').textContent = '';
+                document.getElementById('team-a-rebounds').textContent = '';
+                document.getElementById('team-b-rebounds').textContent = '';
+                document.getElementById('team-a-turnovers').textContent = '';
+                document.getElementById('team-b-turnovers').textContent = '';
+
+                // Сбрасываем коэффициенты
+                document.getElementById('odds-p1').textContent = '';
+                document.getElementById('odds-p2').textContent = '';
+                document.getElementById('odds-total-over').textContent = '';
+                document.getElementById('odds-total-under').textContent = '';
+
+                // Обновляем отображение времени
+                updateMatchTimeDisplay();
+
+                // Скрываем клавиатуру
+                keyboard.style.display = 'none';
+
+                // Сбрасываем результаты
+                document.getElementById('predicted-total').textContent = '--';
+                document.getElementById('total-recommendation').textContent = '--';
+                document.getElementById('predicted-handicap').textContent = '--';
+                document.getElementById('handicap-recommendation').textContent = '--';
+                document.getElementById('game-pace').textContent = '--';
+                document.getElementById('period-prediction').textContent = '--';
+                document.getElementById('win-probability-a').textContent = '--';
+                document.getElementById('win-probability-b').textContent = '--';
+                document.getElementById('recommended-bet').textContent = '--';
+                document.getElementById('time-impact').textContent = '--';
+                document.getElementById('time-factor-display').textContent = '--';
+                document.getElementById('calculated-p1').textContent = '--';
+                document.getElementById('calculated-p2').textContent = '--';
+                document.getElementById('calculated-total-over').textContent = '--';
+                document.getElementById('calculated-total-under').textContent = '--';
+
+                // Показываем сообщение
+                alert('Все данные очищены!');
+            }
+        });
+        
+        // Обработчик кнопки инструкции
+        document.getElementById('help-btn').addEventListener('click', function() {
+            document.getElementById('instruction-modal').style.display = 'flex';
+        });
+        
+        // Закрытие модального окна
+        document.querySelector('.close-modal').addEventListener('click', function() {
+            document.getElementById('instruction-modal').style.display = 'none';
+        });
+        
+        // Закрытие модального окна при клике вне его
+        window.addEventListener('click', function(event) {
+            if (event.target === document.getElementById('instruction-modal')) {
+                document.getElementById('instruction-modal').style.display = 'none';
             }
         });
         
@@ -1641,7 +1877,7 @@
             
             const adjustedGamePace = totalPoints > 0 ? (parseFloat(gamePace) * efficiencyFactor * timeFactor * genderFactor.pace).toFixed(2) : "0.00";
             
-            // Прогнозируем общее количество очков в матче
+            // Прогнозируем общее количество очков в матчах
             let totalProjected;
             if (!isOvertime) {
                 const remainingTime = (champ.periodLength * champ.periods) - elapsedMinutes;
